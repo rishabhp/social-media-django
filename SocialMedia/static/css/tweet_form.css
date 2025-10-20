@@ -1,0 +1,21 @@
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+textarea.form-control {
+    min-height: 150px;
+}
+
+input[type="submit"].btn {
+    width: 100%;
+    border-radius: 25px;
+}

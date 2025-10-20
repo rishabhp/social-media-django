@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Searched Tweets{% endblock %}
+
+{% block content %}
+    {% load static %}
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Searching for tweets with '{{ keyword }}'</h2>
+
+        <div class="row">
+            {% for tweet in tweets %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm border-light">
+                        {% if tweet.image %}
+                            <img class="card-img-top" src="{{ tweet.image.url }}" alt="Tweet image" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <img class="card-img-top" src="{% static 'assets/200X200.svg' %}" alt="Default Tweet image" style="height: 200px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ tweet.user }}</h5>
+                            <p class="card-text">{{ tweet.text }}</p>
+                            {% if tweet.user == user %}
+                                <div class="d-flex justify-content-between">
+                                    <a href="{% url 'edit_tweet' tweet.id %}" class="btn btn-primary btn-sm">Edit</a>
+                                    <form action="{% url 'delete_tweet' tweet.id %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                                    </form>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

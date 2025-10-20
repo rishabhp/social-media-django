@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        
+        <h2 class="text-center mb-4">
+            Welcome Home, 
+            {% if user.is_authenticated %}
+                {{ user }}
+            {% else %}
+                Guest
+            {% endif %}
+            !
+        </h2>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 col-sm-12">
+                
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Explore Tweets</h5>
+                        <p class="card-text text-center">
+                            Want to view all the tweets? <a href="{% url 'all_tweet' %}" class="btn btn-outline-primary">Go here</a>
+                        </p>
+                    </div>
+                </div>
+
+                {% if user.is_authenticated %}
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Create Your Own Tweet</h5>
+                            <p class="card-text text-center">
+                                Ready to share your thoughts? <a href="{% url 'add_tweet' %}" class="btn btn-outline-success">Go here</a>
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

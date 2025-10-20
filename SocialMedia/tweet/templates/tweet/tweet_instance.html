@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}View Tweet{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-light">
+                {% if tweet.image %}
+                    <img class="card-img-top" src="{{ tweet.image.url }}" alt="Tweet image" style="height: 300px; object-fit: cover;">
+                {% else %}
+                    <img class="card-img-top" src="{% static 'assets/200X200.svg' %}" alt="Default Tweet image" style="height: 300px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ tweet.user }}</h5>
+                    <p class="card-text">{{ tweet.text }}</p>
+                    <p class="text-muted">Time Created: {{ tweet.datetime_created }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="message-container">
+                {% for message in messages %}
+                    <div class="alert alert-info">{{ message }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h3>Add a Comment:</h3>
+            <form action="{% url 'add_comment' %}" method="post" class="mb-4">
+                {% csrf_token %}
+                <div class="form-group">
+                    <textarea name="comment" id="comment" class="form-control" rows="4" placeholder="Write your comment here..." required></textarea>
+                </div>
+                <input type="hidden" name="tweet_id" value="{{ tweet.id }}">
+                <button type="submit" class="btn btn-primary mt-3">Submit Comment</button>
+            </form>
+        </div>
+    </div>
+
+    <hr class="my-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h3>Comments:</h3>
+            {% for comment in comments %}
+                <div class="comment-container mb-4 p-3 bg-light rounded shadow-sm d-flex align-items-center">
+                    {% if comment.user.profile_pic %}
+                        <img src="{{ comment.user.profile_pic.image.url }}" alt="profile_pic" class="rounded-circle mx-3" width="50" height="50">
+                    {% else %}
+                        <img src="{% static 'assets/200X200.svg' %}" alt="profile_pic" class="rounded-circle mx-3" width="50" height="50">
+                    {% endif %}
+                    <div class="ml-3">
+                        <div class="font-weight-bold text-primary h5">{{ comment.user }}</div>
+                        <p class="text-dark">{{ comment.comment }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
